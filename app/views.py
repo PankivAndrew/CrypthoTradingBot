@@ -1,6 +1,6 @@
-from app import app, render_template, jsonify, request
-from visualize import generate_plotly_url
-from predictions import minute_price_historical, conv_for_server
+from .app import app, render_template, jsonify, request
+from .visualize import generate_plotly_url
+from .predictions import minute_price_historical, conv_for_server
 
 
 @app.route('/')

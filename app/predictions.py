@@ -1,6 +1,6 @@
 import dateutil
 
-from app import API_KEY, API_SECRET
+from .app import API_KEY, API_SECRET
 from crypto_traiding_api.bitmex_run import place_order
 import requests
 import datetime
@@ -59,7 +59,7 @@ def EMA_trader(df):
 def conv_for_server(dataframe):
     lst = []
     for el in dataframe.values:
-        dic = {'x': dateutil.parser.parse(str(el[0])).timestamp(), 'y': el[1]}
+        dic = {'x': dateutil.parser.parse(str(el[0])).timestamp() * 1000, 'y': el[1]}
         lst.append(dic)
     return lst
 
@@ -100,7 +100,7 @@ def start_trade():
                 rsi_f.write('hold')
         if ema_state != ema_status and ema_state != 'hold':
             ema_status = ema_state
-            order = place_order(API_KEY, API_SECRET, action=ema_state, amount=10)
+            order = place_order(API_KEY, API_SECRET, action=ema_state)
             print("ema", order)
             with open('ema.txt', 'w+') as ema_f:
                 ema_f.write(ema_state)
@@ -108,4 +108,4 @@ def start_trade():
             ema_status = 'hold'
             with open('ema.txt', 'w+') as ema_f:
                 ema_f.write('hold')
-        time.sleep(60)
+        # time.sleep(60)

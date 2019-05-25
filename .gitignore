@@ -1,3 +1,5 @@
-.venv/
+venv/
 .idea/
 *.pyc
+ema.txt
+rsi.txt

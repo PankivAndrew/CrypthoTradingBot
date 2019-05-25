@@ -6,7 +6,9 @@
     <link rel="stylesheet" type="text/css" href="../static/styles.css">
     <link href='https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800' rel='stylesheet'
           type='text/css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 </head>
 <body>
 <h1 class="header">Trading BOT</h1>
@@ -24,68 +26,87 @@
         </div>
 
         <div id="Bitcoin" class="tabcontent">
-            <h3>Chart example</h3>
             <div id="bitcoin-plot"></div>
         </div>
 
         <div id="Ethereum" class="tabcontent">
-            <h3>Chart example</h3>
             <div id="ethereum-plot"></div>
         </div>
 
 
     </div>
     <script type="text/javascript">
+        function plot_ethereum(response) {
+            console.log(response.data);
+            var chart = new CanvasJS.Chart("ethereum-plot", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Ethereum exchange rate chart"
+                },
+                axisX: {
+                    valueFormatString: "MM-DD HH:mm:ss"
+                },
+                axisY: {
+                    includeZero: false
+                },
+                data: [{
+                    type: "line",
+                    xValueType: "dateTime",
+                    dataPoints: response.data
+                }]
+            });
+            chart.render();
+        }
+
+        function plot_bitcoin(response) {
+            var chart = new CanvasJS.Chart("bitcoin-plot", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Bitcoin exchange rate chart"
+                },
+                axisX: {
+                    valueFormatString: "MM-DD HH:mm:ss"
+                },
+                axisY: {
+                    includeZero: false
+                },
+                data: [{
+                    type: "line",
+                    xValueType: "dateTime",
+                    dataPoints: response.data
+                }]
+            });
+            chart.render();
+        }
+
         setInterval(
-            $.ajax({
-            type: "GET",
-            url: "/get_data/etc",
-            success: function (response) {
-                window.onload = function () {
-                    var chart = new CanvasJS.Chart("ethereum-plot", {
-                        animationEnabled: true,
-                        theme: "light2",
-                        title: {
-                            text: "Simple Line Chart"
-                        },
-                        axisY: {
-                            includeZero: false
-                        },
-                        data: [{
-                            type: "line",
-                            xValueType: "dateTime",
-                            dataPoints: response.data
-                        }]
-                    });
-                    chart.render();
-                }
+            () => {
+                $.ajax({
+                    type: "GET",
+                    url: "/get_data/etc",
+                    success: (response) => {
+                        window.addEventListener ?
+                            window.addEventListener("load", plot_ethereum(response), false) :
+                            window.attachEvent && window.attachEvent("onload", plot_ethereum(response));
+                    }
+                })
             }
-        }) ,6000);
+            , 6000);
         setInterval(
-            $.ajax({
-            type: "GET",
-            url: "/get_data/btc",
-            success: function (response) {
-                window.onload = function () {
-                    var chart = new CanvasJS.Chart("bitcoin-plot", {
-                        animationEnabled: true,
-                        theme: "light2",
-                        title: {
-                            text: "Simple Line Chart"
-                        },
-                        axisY: {
-                            includeZero: false
-                        },
-                        data: [{
-                            type: "line",
-                            xValueType: "dateTime",
-                            dataPoints: response.data
-                        }]
-                    });
-                    chart.render();
-                }
+            () => {
+                $.ajax({
+                    type: "GET",
+                    url: "/get_data/btc",
+                    success: (response) => {
+                        window.addEventListener ?
+                            window.addEventListener("load", plot_bitcoin(response), false) :
+                            window.attachEvent && window.attachEvent("onload", plot_bitcoin(response));
+                    }
+                })
             }
-        }) ,6000);
+            , 6000);
     </script>
     <div class="divider"></div>
     <section>
@@ -100,7 +121,6 @@
     </section>
 </div>
 
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script>
     var colors = {
         "buy": "#009900",
@@ -118,7 +138,7 @@
                 result.style.backgroundColor = colors[state];
             }
         });
-    }, 5000);
+    }, 6000);
     setInterval(function () {
         $.ajax({
             type: "GET",
@@ -130,7 +150,7 @@
                 result.style.backgroundColor = colors[state];
             }
         });
-    }, 5000);
+    }, 6000);
 </script>
 <script>
     function openCity(evt, cityName) {

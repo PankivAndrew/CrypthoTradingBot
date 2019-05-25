@@ -9,8 +9,8 @@ API_SECRET = os.getenv('API_SECRET')
 
 app = Flask(__name__)
 
-from views import *
-from predictions import start_trade
+from .views import *
+from .predictions import start_trade
 
 thread = Thread(target=start_trade)
 thread.start()
