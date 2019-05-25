@@ -22,7 +22,7 @@ def get_status(algorithm):
 @app.route('/get_data/<string:crypto>')
 def get_data(crypto):
     if crypto == 'etc':
-        lst = conv_for_server(minute_price_historical('ETH', 'BTC', 10, 1, ['Coinbase']))
+        lst = conv_for_server(minute_price_historical('ETH', 'USD', 10, 1, ['Coinbase']))
         return jsonify({"data": lst})
     lst = conv_for_server(minute_price_historical('BTC', 'USD', 30, 1, ['Coinbase']))
     return jsonify({"data": lst})
