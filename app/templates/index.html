@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="../static/styles.css">
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800' rel='stylesheet'
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800'
+          rel='stylesheet'
           type='text/css'>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -14,14 +15,16 @@
 <h1 class="header">Trading BOT</h1>
 <div class="content">
     <div class="content__box">
-        <p class="details">Based on data from <a class="details" href="https://min-api.cryptocompare.com">https://min-api.cryptocompare.com</a>
+        <p class="details">Based on data from <a class="details"
+                                                 href="https://min-api.cryptocompare.com">https://min-api.cryptocompare.com</a>
         </p>
         <!--PLOTLY-->
 
         <!--PLOTLY-->
 
         <div class="tab">
-            <button class="tablinks" class="active" onclick="openCity(event, 'Bitcoin')">Bitcoin</button>
+            <button class="tablinks" class="active" onclick="openCity(event, 'Bitcoin')">Bitcoin
+            </button>
             <button class="tablinks" onclick="openCity(event, 'Ethereum')">Ethereum</button>
         </div>
 
@@ -119,7 +122,14 @@
             <p class="result" id="result-ema">HOLD</p>
         </div>
     </section>
+    <section>
+        <button type="button"
+                style="width:59px; text-align:center; vertical-align:middle;height: 50px">Run tests
+        </button>
+    </section>
+
 </div>
+
 
 <script>
     var colors = {

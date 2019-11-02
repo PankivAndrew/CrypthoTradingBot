@@ -1,6 +1,5 @@
 from .app import app, render_template, jsonify, request
-from .visualize import generate_plotly_url
-from .predictions import minute_price_historical, conv_for_server
+from .predictions import minute_price_historical, conv_for_server, test_algorithms
 
 
 @app.route('/')
@@ -22,7 +21,7 @@ def get_status(algorithm):
 @app.route('/get_data/<string:crypto>')
 def get_data(crypto):
     if crypto == 'etc':
-        lst = conv_for_server(minute_price_historical('ETH', 'USD', 10, 1, ['Coinbase']))
+        lst = conv_for_server(minute_price_historical('ETC', 'USD', 10, 1, ['Coinbase']))
         return jsonify({"data": lst})
     lst = conv_for_server(minute_price_historical('BTC', 'USD', 30, 1, ['Coinbase']))
     return jsonify({"data": lst})
@@ -35,3 +34,9 @@ def change_status():
     if json:
         state = json['state']
     return 'OK'
+
+
+@app.route('/run_test')
+def run_test():
+    rsi_result, ema_result = test_algorithms(60)
+    return jsonify({"rsi_result": rsi_result, "ema_result": ema_result})

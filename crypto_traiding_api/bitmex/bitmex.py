@@ -14,6 +14,7 @@ from bravado.swagger_model import Loader
 # swagger spec's formats to exclude. this help to avoid warning in your console.
 EXCLUDE_SWG_FORMATS = ['JSON', 'guid']
 
+
 class APIKeyAuthenticator(Authenticator):
 
     def __init__(self, host, api_key, api_secret):
@@ -34,7 +35,8 @@ class APIKeyAuthenticator(Authenticator):
         prepared = r.prepare()
         body = prepared.body or ''
         url = prepared.path_url
-        r.headers['api-signature'] = self.generate_signature(self.api_secret, r.method, url, expires, body)
+        r.headers['api-signature'] = self.generate_signature(self.api_secret, r.method, url,
+                                                             expires, body)
         return r
 
     def generate_signature(self, secret, verb, url, nonce, data):
@@ -51,7 +53,8 @@ class APIKeyAuthenticator(Authenticator):
 
         return hmac.new(secret, message, digestmod=hashlib.sha256).hexdigest()
 
-def bitmex(test=True, config=None, api_key=None, api_secret=None):
+
+def bitmex_request(test=True, config=None, api_key=None, api_secret=None):
     # config options at http://bravado.readthedocs.io/en/latest/configuration.html
     if not config:
         config = {
@@ -77,9 +80,12 @@ def bitmex(test=True, config=None, api_key=None, api_secret=None):
     if api_key and api_secret:
         request_client = RequestsClient()
         request_client.authenticator = APIKeyAuthenticator(host, api_key, api_secret)
-        return SwaggerClient.from_spec(spec_dict, origin_url=spec_uri, http_client=request_client, config=config)
+        return SwaggerClient.from_spec(spec_dict, origin_url=spec_uri, http_client=request_client,
+                                       config=config)
     else:
-        return SwaggerClient.from_spec(spec_dict, origin_url=spec_uri, http_client=None, config=config)
+        return SwaggerClient.from_spec(spec_dict, origin_url=spec_uri, http_client=None,
+                                       config=config)
+
 
 # exclude some format from swagger json to avoid warning in API execution.
 def get_swagger_json(spec_uri, exclude_formats=[]):
