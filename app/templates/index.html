@@ -122,15 +122,38 @@
             <p class="result" id="result-ema">HOLD</p>
         </div>
     </section>
-    <section>
-        <button type="button"
-                style="width:59px; text-align:center; vertical-align:middle;height: 50px">Run tests
+    <section id="test">
+        <button onclick="run_tests()" type="button" style="text-align: center; vertical-align: middle; height: 50px; display: block; width: 50%; margin: 0 auto;">Run tests
         </button>
+        <div class="content__box">
+            <p class="details">RCI profit</p>
+            <p id="rci-profit"></p>
+        </div>
+        <div class="content__box">
+            <p class="details">EMA profit</p>
+            <p id="ema-profit"></p>
+        </div>
     </section>
 
 </div>
 
+<script>
+    function run_tests() {
+         $.ajax({
+            type: "GET",
+            url: "/run_test",
+            success: function (response) {
+                let rsi_result = response.rsi_result;
+                let ema_result = response.ema_result;
+                let rci_profit = document.getElementById('rci-profit');
+                let ema_profit = document.getElementById('ema-profit');
+                rci_profit.innerHTML = rsi_result + '$';
+                ema_profit.innerHTML = ema_result + '$';
+            }
+        });
 
+    }
+</script>
 <script>
     var colors = {
         "buy": "#009900",

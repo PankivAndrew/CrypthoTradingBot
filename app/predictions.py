@@ -123,20 +123,24 @@ def test_algorithms(test_duration=10):
     usd_balance_before_rsi = check_our_usd_balance('ETC')
     start_trade('rsi', test_duration, delay=10)
     usd_balance_after_rsi = check_our_usd_balance('ETC')
-    rsi_result = usd_balance_before_rsi - usd_balance_after_rsi
+    rsi_result = usd_balance_after_rsi - usd_balance_before_rsi
     print('USD earnings after RSI: {}'.format(rsi_result))
 
     usd_balance_before_ema = check_our_usd_balance('BTC')
     start_trade('ema', test_duration, delay=10)
     usd_balance_after_ema = check_our_usd_balance('BTC')
-    ema_result = usd_balance_before_ema - usd_balance_after_ema
+    ema_result = usd_balance_after_ema - usd_balance_before_ema
     print('USD earnings after RSI: {}'.format(ema_result))
 
     return rsi_result, ema_result
 
 
 def check_our_usd_balance(currency):
+    if currency == 'ETC':
+        coefficient = 0.000527
+    else:
+        coefficient = 1
     crypto_currency_exchange_rate = minute_price_historical(currency, 'USD', 10, 1, ['Coinbase'])['close'].iloc[0]
     bitmex_client = bitmex_request(test=True, api_key=API_KEY, api_secret=API_SECRET)
     current_balance = bitmex_client.User.User_getMargin().result()[0]['walletBalance']
-    return crypto_currency_exchange_rate * current_balance
+    return crypto_currency_exchange_rate * current_balance * coefficient

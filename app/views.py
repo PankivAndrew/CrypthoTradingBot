@@ -38,5 +38,5 @@ def change_status():
 
 @app.route('/run_test')
 def run_test():
-    rsi_result, ema_result = test_algorithms(60)
-    return jsonify({"rsi_result": rsi_result, "ema_result": ema_result})
+    rsi_result, ema_result = test_algorithms()
+    return jsonify({"rsi_result": int(round(rsi_result)), "ema_result": int(round(ema_result))})

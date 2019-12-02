@@ -32,6 +32,16 @@ body {
     background:#979797;
 }
 
+#test{
+    display: table;
+    width: 30%;
+}
+
+.profits{
+    display: flex;
+    flex-direction: row;
+}
+
 .result{
     text-transform: uppercase;
     margin-top: 0px;
